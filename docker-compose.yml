@@ -39,7 +39,7 @@ services:
       # php项目文件夹挂载
       - ../www:/var/www/html
       # 定时任务配置文件挂载
-      - ./php/crontabs:/var/spool/cron/crontabs
+      # - ./php/crontabs:/var/spool/cron/crontabs
   nginx:
     hostname: nginx
     restart: always

@@ -32,7 +32,12 @@ RUN apt-get update && apt-get install -y cron \
 
 COPY supervisor /etc/supervisor/conf.d
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+COPY test.sh /var/www/test.sh
+COPY crontabs /var/spool/cron/crontabs
+
+RUN chmod +x /entrypoint.sh \
+&& chmod +x /var/www/test.sh \
+&& crontab /var/spool/cron/crontabs/www-data
 
 ENTRYPOINT ["/entrypoint.sh"]
 
