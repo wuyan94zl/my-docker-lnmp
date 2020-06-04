@@ -1,0 +1,56 @@
+version: '3'
+services:
+  mysql:
+    hostname: mysql
+    restart: always
+    image: mysql:5.7
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql/logs:/var/log/mysql
+      - ./mysql/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user123
+  redis:
+    hostname: redis
+    restart: always
+    image: redis:alpine
+    container_name: redis
+    command: redis-server --requirepass 123456
+    ports:
+      - "6379:6379"
+  php:
+    hostname: php
+    restart: always
+    container_name: php
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: myphp:7.3
+    ports:
+      - "9000:9000"
+    links:
+      - mysql:mysql
+      - redis:redis
+    volumes:
+      # php项目文件夹挂载
+      - ../www:/var/www/html
+      # 定时任务配置文件挂载
+      - ./php/crontabs:/var/spool/cron/crontabs
+  nginx:
+    hostname: nginx
+    restart: always
+    container_name: nginx
+    image: nginx:1.17.0
+    ports:
+      - "80:80"
+      - "443:443"
+    links:
+      - "php:php"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/logs:/var/log/nginx
+      - ./nginx/data:/usr/share/nginx/html

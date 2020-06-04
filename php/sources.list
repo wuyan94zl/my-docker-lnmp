@@ -1,0 +1,8 @@
+deb https://mirrors.aliyun.com/debian buster main
+deb https://mirrors.aliyun.com/debian-security buster/updates main
+deb https://mirrors.aliyun.com/debian buster-updates main
+# 安装crontabs定时任务apt源
+deb https://mirrors.aliyun.com/debian Debian10.4 main
+
+# https://mirrors.aliyun.com/debian/dists/
+
