@@ -52,3 +52,5 @@ services:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./nginx/logs:/var/log/nginx
       - ./nginx/data:/usr/share/nginx/html
+      # laravel 静态资源
+      - ../www/project/public:/var/www/html/project/public
